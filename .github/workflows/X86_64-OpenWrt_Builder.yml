@@ -73,8 +73,7 @@ jobs:
 
     - name: 下载固件源码
       run: |
-        mkdir /workdir
-        cd /workdir
+        cd ~
         git clone $REPO_URL -b $REPO_BRANCH openwrt
         cd openwrt
         wget https://raw.githubusercontent.com/SilveryX/Actions-OpenWrt/refs/heads/main/X86_64/.config
@@ -87,6 +86,7 @@ jobs:
         sed -i 's/ImmortalWrt/OpenWrt/g' package/base-files/files/bin/config_generate
 
     - name: 应用patch & 更新安装 feeds
+      working-directory: ~/openwrt
       run: |
         ./scripts/feeds update -a
         ./scripts/feeds install -a
